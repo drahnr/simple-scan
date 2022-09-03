@@ -99,6 +99,28 @@ public class Book : Object
         changed ();
     }
 
+    public void flip_every_second (bool flip_first)
+    {
+        var new_pages = new List<Page> ();
+        for (var i = 0; i < n_pages; i++)
+        {
+            var page = pages.nth_data (i);
+            page.set_named_crop("A4"); // HACK
+            page.move_crop(0,0);
+            if (i % 2 == (int)flip_first) {
+                new_pages.append (page);
+            } else {
+                page.rotate_left();
+                page.rotate_left();
+                new_pages.append (page);
+            }
+        }
+        pages = (owned) new_pages;
+
+        reordered ();
+        changed ();
+    }
+
     public void combine_sides_reverse ()
     {
         var new_pages = new List<Page> ();
